@@ -11,6 +11,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * 
+ * @author Anushree
+ * This class works as a controller for application.
+ * when any request gets hit it goes into the specific route from where service logic gets called
+ */
 @RestController
 public class UserController {
 

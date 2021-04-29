@@ -1,15 +1,14 @@
 package com.POC.demoProject.model;
 
+
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- * 
  * @author Anushree Agarwal This class is used for orm.This maps fields into
  *         databases and save result in database.
- *
  */
 @Service
 public class UserService {
@@ -18,7 +17,7 @@ public class UserService {
 	private UserRepository userRepository;
 
 	public List<UserModel> getAllUsers() {
-		List<UserModel> users = new ArrayList<>();
+		List<UserModel> users = new ArrayList<UserModel>();
 		 userRepository.findAll().forEach(users::add);
 		//this will sort users based on dob
 		//return userRepository.findAll(Sort.by(Sort.Direction.DESC, "dateOfBirth"));

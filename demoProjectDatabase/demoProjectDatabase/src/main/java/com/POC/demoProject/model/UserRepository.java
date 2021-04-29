@@ -7,9 +7,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 /**
- * 
  * @author Anushree Agarwal
- * This interface acts as repositiry and contains various methods which we can use for searching and sorting in JPA.
+ * This interface acts as repository and contains various methods which we can use for searching and sorting in JPA.
  */
 @Repository
 public interface UserRepository extends JpaRepository<UserModel, Integer> {

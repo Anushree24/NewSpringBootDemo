@@ -6,6 +6,8 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import lombok.NoArgsConstructor;
 /**
  * @author Anushree This class is model class for user. It takes all the
  *         parameters along with certain validations that user fields will have.
@@ -15,6 +17,8 @@ import javax.validation.constraints.Size;
 
 //this is just used for soft delete
 //@SQLDelete(sql = "UPDATE Usertable SET deleted=true WHERE user_id=?")
+
+@NoArgsConstructor
 public class UserModel implements Serializable {
 
 	@Id
@@ -65,10 +69,10 @@ public class UserModel implements Serializable {
 	@Size(max = 50)
 	private String pinCode;
 
-	// This is the default constructor
-	public UserModel() {
-
-	}
+//	// This is the default constructor
+//	public UserModel() {
+//
+//	}
 
 	public UserModel(int userId, String firstName, String lastName, String email, String password, String phoneNumber,
 			String gender, Date dateOfBirth, Date dateOfJoining, String streetAddress, String city, String state,

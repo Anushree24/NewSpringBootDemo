@@ -3,12 +3,13 @@ package com.POC.demoProject.testController;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -30,6 +31,13 @@ import com.POC.demoProject.model.UserRepository;
 import com.POC.demoProject.model.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+/**
+ * 
+ * @author Anushree Agarwal
+ * 
+ *         This is a test class which tests our controller and our web requests.
+ *
+ */
 @WebMvcTest(UserController.class)
 @TestInstance(Lifecycle.PER_CLASS)
 
@@ -73,7 +81,6 @@ public class TestController {
 		user2.setCountry("India");
 		user2.setGender("Feamle");
 		user2.setPinCode("123");
-
 		List<UserModel> users = new ArrayList<UserModel>();
 		users.add(user1);
 		users.add(user2);
@@ -90,6 +97,24 @@ public class TestController {
 		user.setGender("Female");
 		String jsonRequest = objectMapper.writeValueAsString(user);
 		MvcResult result = mockMvc.perform(post("/users").content(jsonRequest).contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk()).andReturn();
+		String resultContent = result.getResponse().getContentAsString();
+		Response response = objectMapper.readValue(resultContent, Response.class);
+		org.junit.Assert.assertTrue(response.getStatus() == Boolean.TRUE);
+
+	}
+
+	@Test
+	public void updateUserTest() throws Exception {
+		UserModel user = new UserModel();
+		user.setUserId(1);
+		user.setFirstName("ANushre");
+		user.setLastName("agarwal");
+		user.setCity("Bhilwara");
+		user.setCountry("India");
+		user.setGender("Female");
+		String jsonRequest = objectMapper.writeValueAsString(user);
+		MvcResult result = mockMvc.perform(put("/users/1").content(jsonRequest).contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk()).andReturn();
 		String resultContent = result.getResponse().getContentAsString();
 		Response response = objectMapper.readValue(resultContent, Response.class);
@@ -157,7 +182,7 @@ public class TestController {
 		user1.setPinCode("121");
 		List<UserModel> users = new ArrayList<UserModel>();
 		users.add(user1);
-		String response = objectMapper.writeValueAsString(users);
+		// String response = objectMapper.writeValueAsString(users);
 		Mockito.when(userService.getUserByLastName("Softt")).thenReturn(users);
 		MvcResult result = mockMvc
 				.perform(get("/users/searchBySurName/Softt").contentType(MediaType.APPLICATION_JSON_VALUE))
@@ -179,12 +204,11 @@ public class TestController {
 		user1.setPinCode("121");
 		List<UserModel> users = new ArrayList<UserModel>();
 		users.add(user1);
-		String response = objectMapper.writeValueAsString(users);
+		// String response = objectMapper.writeValueAsString(users);
 		Mockito.when(userService.getUserByPinCode("121")).thenReturn(users);
 		MvcResult result = mockMvc
 				.perform(get("/users/searchByPinCode/121").contentType(MediaType.APPLICATION_JSON_VALUE))
 				.andExpect(status().isOk()).andReturn();
-		System.out.println("hello" + response);
 		assertEquals(200, result.getResponse().getStatus());
 
 	}
@@ -217,13 +241,12 @@ public class TestController {
 		List<UserModel> users = new ArrayList<UserModel>();
 		users.add(user1);
 		users.add(user2);
-		String response = objectMapper.writeValueAsString(users);
+		// String response = objectMapper.writeValueAsString(users);
 		Mockito.when(userService.sortUserByDateOfBirth()).thenReturn(users);
 		MvcResult result = mockMvc
 				.perform(get("/users/sortByDateOfBirth").contentType(MediaType.APPLICATION_JSON_VALUE))
 				.andExpect(status().isOk()).andReturn();
 		assertEquals(200, result.getResponse().getStatus());
-		System.out.println("response" + response);
 		System.out.println("new res" + result.getResponse().getContentAsString());
 		// assertEquals(response,result.getResponse().getContentAsString());
 
@@ -257,13 +280,12 @@ public class TestController {
 		List<UserModel> users = new ArrayList<UserModel>();
 		users.add(user1);
 		users.add(user2);
-		String response = objectMapper.writeValueAsString(users);
+		// String response = objectMapper.writeValueAsString(users);
 		Mockito.when(userService.sortUserByDateOfJoining()).thenReturn(users);
 		MvcResult result = mockMvc
 				.perform(get("/users/sortByDateOfJoining").contentType(MediaType.APPLICATION_JSON_VALUE))
 				.andExpect(status().isOk()).andReturn();
 		assertEquals(200, result.getResponse().getStatus());
-		System.out.println("response" + response);
 		System.out.println("new res" + result.getResponse().getContentAsString());
 		// assertEquals(response,result.getResponse().getContentAsString());
 
