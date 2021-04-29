@@ -1,8 +1,6 @@
 package com.POC.demoProject.testController;
 
-import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
@@ -11,10 +9,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import org.junit.Ignore;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -34,7 +28,6 @@ import com.POC.demoProject.model.UserController;
 import com.POC.demoProject.model.UserModel;
 import com.POC.demoProject.model.UserRepository;
 import com.POC.demoProject.model.UserService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @WebMvcTest(UserController.class)
@@ -195,28 +188,84 @@ public class TestController {
 		assertEquals(200, result.getResponse().getStatus());
 
 	}
-	
+
 	@Test
 	public void sortByDateOfBirthTest() throws Exception {
 		UserModel user1 = new UserModel();
-		user1.setUserId(10);
+		user1.setUserId(11);
 		user1.setFirstName("Neoo");
 		user1.setLastName("Softt");
 		user1.setCity("Bhilwara");
 		user1.setDeleted(false);
 		user1.setCountry("India");
-		user1.setGender("Feamle");
+		user1.setGender("Female");
 		user1.setPinCode("121");
 		user1.setDateOfBirth(new SimpleDateFormat("yyyy-MM-dd HH:MM:SS").parse("2021-04-28 00:00:00"));
 		user1.setDateOfJoining(new SimpleDateFormat("yyyy-MM-dd HH:MM:SS").parse("2021-04-28 00:00:00"));
+
+		UserModel user2 = new UserModel();
+		user2.setUserId(10);
+		user2.setFirstName("Neoo");
+		user2.setLastName("Softt");
+		user2.setCity("Bhilwara");
+		user2.setDeleted(false);
+		user2.setCountry("India");
+		user2.setGender("Female");
+		user2.setPinCode("121");
+		user2.setDateOfBirth(new SimpleDateFormat("yyyy-MM-dd HH:MM:SS").parse("2020-04-28 00:00:00"));
+		user2.setDateOfJoining(new SimpleDateFormat("yyyy-MM-dd HH:MM:SS").parse("2020-04-28 00:00:00"));
 		List<UserModel> users = new ArrayList<UserModel>();
 		users.add(user1);
+		users.add(user2);
 		String response = objectMapper.writeValueAsString(users);
-		Mockito.when(userService.getUserByLastName("Softt")).thenReturn(users);
+		Mockito.when(userService.sortUserByDateOfBirth()).thenReturn(users);
 		MvcResult result = mockMvc
-				.perform(get("/users/searchBySurName/Softt").contentType(MediaType.APPLICATION_JSON_VALUE))
+				.perform(get("/users/sortByDateOfBirth").contentType(MediaType.APPLICATION_JSON_VALUE))
 				.andExpect(status().isOk()).andReturn();
 		assertEquals(200, result.getResponse().getStatus());
+		System.out.println("response" + response);
+		System.out.println("new res" + result.getResponse().getContentAsString());
+		// assertEquals(response,result.getResponse().getContentAsString());
+
+	}
+
+	@Test
+	public void sortByDateOfJoiningTest() throws Exception {
+		UserModel user1 = new UserModel();
+		user1.setUserId(11);
+		user1.setFirstName("Neoo");
+		user1.setLastName("Softt");
+		user1.setCity("Bhilwara");
+		user1.setDeleted(false);
+		user1.setCountry("India");
+		user1.setGender("Female");
+		user1.setPinCode("121");
+		user1.setDateOfBirth(new SimpleDateFormat("yyyy-MM-dd HH:MM:SS").parse("2021-04-28 00:00:00"));
+		user1.setDateOfJoining(new SimpleDateFormat("yyyy-MM-dd HH:MM:SS").parse("2021-04-28 00:00:00"));
+
+		UserModel user2 = new UserModel();
+		user2.setUserId(10);
+		user2.setFirstName("Neoo");
+		user2.setLastName("Softt");
+		user2.setCity("Bhilwara");
+		user2.setDeleted(false);
+		user2.setCountry("India");
+		user2.setGender("Female");
+		user2.setPinCode("121");
+		user2.setDateOfBirth(new SimpleDateFormat("yyyy-MM-dd HH:MM:SS").parse("2020-04-28 00:00:00"));
+		user2.setDateOfJoining(new SimpleDateFormat("yyyy-MM-dd HH:MM:SS").parse("2020-04-28 00:00:00"));
+		List<UserModel> users = new ArrayList<UserModel>();
+		users.add(user1);
+		users.add(user2);
+		String response = objectMapper.writeValueAsString(users);
+		Mockito.when(userService.sortUserByDateOfJoining()).thenReturn(users);
+		MvcResult result = mockMvc
+				.perform(get("/users/sortByDateOfJoining").contentType(MediaType.APPLICATION_JSON_VALUE))
+				.andExpect(status().isOk()).andReturn();
+		assertEquals(200, result.getResponse().getStatus());
+		System.out.println("response" + response);
+		System.out.println("new res" + result.getResponse().getContentAsString());
+		// assertEquals(response,result.getResponse().getContentAsString());
 
 	}
 

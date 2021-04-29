@@ -2,14 +2,10 @@ package com.POC.demoProject.model;
 
 import java.io.Serializable;
 import java.util.Date;
-
 import javax.persistence.*;
-
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import org.hibernate.annotations.SQLDelete;
-
 /**
  * @author Anushree This class is model class for user. It takes all the
  *         parameters along with certain validations that user fields will have.

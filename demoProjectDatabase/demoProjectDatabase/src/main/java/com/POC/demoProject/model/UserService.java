@@ -1,10 +1,8 @@
 package com.POC.demoProject.model;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 /**
@@ -20,18 +18,18 @@ public class UserService {
 	private UserRepository userRepository;
 
 	public List<UserModel> getAllUsers() {
-		// List<UserModel> users = new ArrayList<>();
-		// userRepository.findAll().forEach(users::add);
-		// this will sort users based on dob
-		return userRepository.findAll(Sort.by(Sort.Direction.DESC, "dateOfBirth"));
-		// return users;
+		List<UserModel> users = new ArrayList<>();
+		 userRepository.findAll().forEach(users::add);
+		//this will sort users based on dob
+		//return userRepository.findAll(Sort.by(Sort.Direction.DESC, "dateOfBirth"));
+		 return users;
 	}
 
-	public List<UserModel> getUserByDateOfBirth() {
+	public List<UserModel> sortUserByDateOfBirth() {
 		return (userRepository).findAllByOrderByDateOfBirthAsc();
 	}
 
-	public List<UserModel> getUserByDateOfJoining() {
+	public List<UserModel> sortUserByDateOfJoining() {
 		return (userRepository).findAllByOrderByDateOfJoiningAsc();
 	}
 

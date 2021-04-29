@@ -1,8 +1,6 @@
 package com.POC.demoProject.model;
 
 import java.util.List;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,7 +16,7 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
-	
+
 	@Autowired
 	private UserRepository userRepository;
 
@@ -26,46 +24,49 @@ public class UserController {
 	public List<UserModel> getAllUsers() {
 		return userService.getAllUsers();
 	}
-	@RequestMapping("/users/findByDateOfBirth")
-	public List<UserModel> getUserByDateOfBirth() {
-		return userService.getUserByDateOfBirth();
+
+	@RequestMapping("/users/sortByDateOfBirth")
+	public List<UserModel> sortUserByDateOfBirth() {
+		return userService.sortUserByDateOfBirth();
 	}
-	
-	@RequestMapping("/users/findByDateOfJoining")
-	public List<UserModel> getUserByDateOfJoining() {
-		return userService.getUserByDateOfJoining();
+
+	@RequestMapping("/users/sortByDateOfJoining")
+	public List<UserModel> sortUserByDateOfJoining() {
+		return userService.sortUserByDateOfJoining();
 	}
 
 	@RequestMapping("/users/searchByFirstName/{firstName}")
 	public List<UserModel> getUserByFirstName(@PathVariable String firstName) {
 		return userService.getUserByFirstName(firstName);
 	}
+
 	@RequestMapping("/users/searchBySurName/{lastName}")
 	public List<UserModel> getUserByLastName(@PathVariable String lastName) {
 		return userService.getUserByLastName(lastName);
 	}
+
 	@RequestMapping("/users/searchByPinCode/{pinCode}")
 	public List<UserModel> getUserByPinCode(@PathVariable String pinCode) {
 		return userService.getUserByPinCode(pinCode);
 	}
-
 
 	@PostMapping(value = "/users", consumes = { MediaType.APPLICATION_JSON_VALUE,
 			MediaType.APPLICATION_XML_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE,
 					MediaType.APPLICATION_XML_VALUE })
 	public Response addUser(@RequestBody UserModel userModel) {
 		userRepository.save(userModel);
-		return new Response(userModel.getUserId()+"inserted", Boolean.TRUE);
-		//userService.addUser(userModel);
+		return new Response(userModel.getUserId() + "inserted", Boolean.TRUE);
 	}
 
 	@PutMapping(value = "/users/{id}")
-	public void updateUser(@RequestBody UserModel user, @PathVariable int id) {
+	public Response updateUser(@RequestBody UserModel user, @PathVariable int id) {
 		userService.updateUser(id, user);
+		return new Response(user.getUserId() + " is updated", Boolean.TRUE);
 	}
 
 	@DeleteMapping(value = "/users/{id}")
-	public void deleteUser(@PathVariable int id) {
+	public Response deleteUser(@PathVariable int id) {
 		userService.deleteUser(id);
+		return new Response(id + " is deleted", Boolean.TRUE);
 	}
 }
